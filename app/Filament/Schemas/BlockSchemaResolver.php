@@ -18,6 +18,8 @@ final class BlockSchemaResolver
             BlockType::Logos => LogosBlockSchema::schema(),
             BlockType::Image => ImageBlockSchema::schema(),
             BlockType::Anchors => AnchorsBlockSchema::schema(),
+            BlockType::Divider => DividerBlockSchema::schema(),
+            BlockType::Footer => FooterBlockSchema::schema(),
         };
     }
 }

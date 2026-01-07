@@ -14,6 +14,7 @@ enum BlockType: string
     case Image = 'image';
     case Anchors = 'anchors';
     case Divider = 'divider';
+    case Footer = 'footer';
 
     public function label(): string
     {
@@ -28,6 +29,7 @@ enum BlockType: string
             self::Image => 'Imagem',
             self::Anchors => 'Âncoras',
             self::Divider => 'Divisor',
+            self::Footer => 'Rodapé',
         };
     }
 
@@ -44,6 +46,7 @@ enum BlockType: string
             self::Image->value => self::Image->label(),
             self::Anchors->value => self::Anchors->label(),
             self::Divider->value => self::Divider->label(),
+            self::Footer->value => self::Footer->label(),
         ];
     }
 }
