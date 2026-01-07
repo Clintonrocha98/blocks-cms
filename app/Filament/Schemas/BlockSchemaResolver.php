@@ -17,6 +17,7 @@ final class BlockSchemaResolver
             BlockType::Testimonials => TestimonialsBlockSchema::schema(),
             BlockType::Logos => LogosBlockSchema::schema(),
             BlockType::Image => ImageBlockSchema::schema(),
+            BlockType::Anchors => AnchorsBlockSchema::schema(),
         };
     }
 }

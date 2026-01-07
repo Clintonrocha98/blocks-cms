@@ -12,6 +12,8 @@ enum BlockType: string
     case Testimonials = 'testimonials';
     case Logos = 'logos';
     case Image = 'image';
+    case Anchors = 'anchors';
+    case Divider = 'divider';
 
     public function label(): string
     {
@@ -23,7 +25,9 @@ enum BlockType: string
             self::Features => 'Recursos',
             self::Testimonials => 'Depoimentos',
             self::Logos => 'Logos',
-
+            self::Image => 'Imagem',
+            self::Anchors => 'Âncoras',
+            self::Divider => 'Divisor',
         };
     }
 
@@ -37,6 +41,9 @@ enum BlockType: string
             self::Features->value => self::Features->label(),
             self::Testimonials->value => self::Testimonials->label(),
             self::Logos->value => self::Logos->label(),
+            self::Image->value => self::Image->label(),
+            self::Anchors->value => self::Anchors->label(),
+            self::Divider->value => self::Divider->label(),
         ];
     }
 }
