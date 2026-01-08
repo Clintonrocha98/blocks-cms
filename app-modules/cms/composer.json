@@ -1,0 +1,24 @@
+{
+	"name": "clinton-rocha/cms",
+	"description": "",
+	"type": "library",
+	"version": "1.0",
+	"license": "proprietary",
+	"require": {},
+	"autoload": {
+		"psr-4": {
+			"ClintonRocha\\CMS\\": "src/",
+			"ClintonRocha\\CMS\\Tests\\": "tests/",
+			"ClintonRocha\\CMS\\Database\\Factories\\": "database/factories/",
+			"ClintonRocha\\CMS\\Database\\Seeders\\": "database/seeders/"
+		}
+	},
+	"minimum-stability": "stable",
+	"extra": {
+		"laravel": {
+			"providers": [
+				"ClintonRocha\\CMS\\Providers\\CMSServiceProvider"
+			]
+		}
+	}
+}

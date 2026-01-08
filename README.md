@@ -1,59 +1,72 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# MVP CMS
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Sistema de gerenciamento de páginas dinâmicas orientado a blocos, focado em agilidade, flexibilidade e experiência de edição moderna.
 
-## About Laravel
+Projetado do zero para equipes de produto, marketing e desenvolvedores que desejam entregar landings, portais, sites institucionais ou áreas dinâmicas sem depender do time de engenharia.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## Principais Recursos
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+- 🧩 **Arquitetura modular por blocos**: Construa páginas combinando diferentes blocos de conteúdo (texto, imagem, CTA, formulários e mais)
+- 🎨 **Interface administrativa moderna**: Painel de controle via [Filament](https://filamentphp.com/) para CRUD das páginas, dos blocos e preview dinâmico do site
+- ⚡ **Performance e build modernos**: Utiliza [Vite](https://vitejs.dev/) para assets e [TailwindCSS](https://tailwindcss.com/) para estilização rápida
+- ✅ **Sistema de formulários reutilizáveis**: Defina regras de validação, aceite submissões dinâmicas e customize comportamentos facilmente
+- 🔒 **Pronto para produção**: Queue, cache, storage, logs e múltiplos ambientes integrados nativamente com Laravel
+- 🧑‍💻 **Extensibilidade**: Adicione novos blocos via ValueObjects PHP, schemas ou Vue/React no frontend
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## Instalação
 
-## Learning Laravel
+Pré-requisitos:
+- PHP ^8.2
+- Node.js & npm
+- Composer
+- Banco SQLite (default) ou alterar para MySQL/Postgres
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+**Passos:**
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+```bash
+# Clone o projeto (ou baixe o zip)
+git clone ...
+cd mvp-cms
 
-## Laravel Sponsors
+# Instale as dependências Composer e NPM
+composer install
+npm install
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+# Copie o arquivo de ambiente e gere a chave Laravel
+cp .env.example .env
+php artisan key:generate
 
-### Premium Partners
+# Rode as migrações para criar as tabelas básicas
+db sqlite:touch (ou configure seu banco no .env)
+php artisan migrate
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+# Rode o servidor de desenvolvimento e assets
+dev (roda tudo em paralelo)
+# ou em terminais separados:
+php artisan serve
+npm run dev
+```
 
-## Contributing
+Acesse: [http://localhost:8000](http://localhost:8000)
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+## Organização do Projeto
 
-## Code of Conduct
+- **app/Models/Page.php / PageBlock.php**: Estrutura de página e seus blocos
+- **app/Filament/**: Configuração dos painéis administrativos
+- **resources/views/**: Blades dos blocos e páginas
+- **app/Forms/**: Registro de formulários reutilizáveis
+- **public/js/**: Assets produzidos pelo Vite
+- **database/migrations/**: Estrutura do banco de dados
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+## Como criar um novo bloco?
+1. Crie um ValueObject em `app/ValueObjects`
+2. Crie schema em `app/Filament/Schemas`
+3. Adicione a renderização Blade em `resources/views/components/blocks`
+4. Registre o bloco no lugar apropriado
 
-## Security Vulnerabilities
+## Licença
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+MIT. Sinta-se livre para usar, modificar e contribuir!
 
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+---
+Desenvolvido com Laravel, Filament, Vite e TailwindCSS.
