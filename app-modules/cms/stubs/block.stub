@@ -19,6 +19,11 @@ final class {{ name }}Block implements BlockDefinition
         return '{{ name }}';
     }
 
+    public static function schema(): array
+    {
+        return {{ name }}Schema::schema();
+    }
+
     public static function fromModel(array $data): BlockData
     {
         return {{ name }}Data::fromArray($data);
@@ -26,6 +31,6 @@ final class {{ name }}Block implements BlockDefinition
 
     public static function view(string $variant): string
     {
-        return "cms::components.blocks.{{ slug }}.".$variant;
+        return 'cms.blocks.{{ slug }}.'.$variant;
     }
 }

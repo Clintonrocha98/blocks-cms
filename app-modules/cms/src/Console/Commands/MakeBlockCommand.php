@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ClintonRocha\CMS\Console\Commands;
 
 use Illuminate\Console\Command;
@@ -17,11 +19,12 @@ class MakeBlockCommand extends Command
         $name = Str::studly($this->argument('name'));
         $slug = Str::kebab($name);
 
-        $blockPath = base_path("app-modules/cms/src/Blocks/{$name}");
-        $viewPath = base_path("app-modules/cms/resources/views/components/blocks/{$slug}");
+        $blockPath = base_path('app-modules/cms/src/Blocks/' . $name);
+        $viewPath = base_path('app-modules/cms/resources/views/components/blocks/' . $slug);
 
         if ($files->exists($blockPath)) {
-            $this->error("Block {$name} already exists.");
+            $this->error(sprintf('Block %s already exists.', $name));
+
             return self::FAILURE;
         }
 
@@ -31,35 +34,35 @@ class MakeBlockCommand extends Command
         $this->makeFromStub(
             $files,
             'block.stub',
-            "{$blockPath}/{$name}Block.php",
-            compact('name', 'slug')
+            sprintf('%s/%sBlock.php', $blockPath, $name),
+            ['name' => $name, 'slug' => $slug]
         );
 
         $this->makeFromStub(
             $files,
             'data.stub',
-            "{$blockPath}/{$name}Data.php",
-            compact('name')
+            sprintf('%s/%sData.php', $blockPath, $name),
+            ['name' => $name]
         );
 
         $this->makeFromStub(
             $files,
             'schema.stub',
-            "{$blockPath}/{$name}Schema.php",
-            compact('name', 'slug')
+            sprintf('%s/%sSchema.php', $blockPath, $name),
+            ['name' => $name, 'slug' => $slug]
         );
 
         $this->makeFromStub(
             $files,
             'view.stub',
-            "{$viewPath}/default.blade.php",
+            $viewPath . '/default.blade.php',
             [
                 'name' => $name,
                 'slug' => $slug,
             ]
         );
 
-        $this->info("CMS block {$name} created successfully.");
+        $this->info(sprintf('CMS block %s created successfully.', $name));
 
         return self::SUCCESS;
     }
@@ -70,7 +73,7 @@ class MakeBlockCommand extends Command
         string $target,
         array $data
     ): void {
-        $stubPath = base_path("app-modules/cms/stubs/{$stub}");
+        $stubPath = base_path('app-modules/cms/stubs/' . $stub);
 
         $content = $files->get($stubPath);
 
