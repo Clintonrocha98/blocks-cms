@@ -1,0 +1,7 @@
+@props(['data' => []])
+@php
+    /** @var \ClintonRocha\CMS\Blocks\{{ name }}\{{ name }}Data $data */
+@endphp
+<div>
+    <p>example</p>
+</div>

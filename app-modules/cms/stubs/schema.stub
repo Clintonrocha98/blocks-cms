@@ -1,0 +1,24 @@
+<?php
+declare(strict_types=1);
+
+namespace ClintonRocha\CMS\Blocks\{{ name }};
+
+use ClintonRocha\CMS\Contracts\BlockSchema;
+use ClintonRocha\CMS\Trait\HasVariants;
+use Filament\Forms\Components\TextInput;
+
+final class {{ name }}Schema implements BlockSchema
+{
+    use HasVariants;
+
+    public static function schema(): array
+    {
+        return [
+            self::variantField('{{ name }}'),
+
+            TextInput::make('data.example')
+                ->label('Example field')
+                ->required(),
+        ];
+    }
+}

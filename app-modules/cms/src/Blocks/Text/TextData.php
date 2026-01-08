@@ -25,11 +25,6 @@ final class TextData implements BlockData
         );
     }
 
-    public function view(): string
-    {
-        return 'blocks.text.'.$this->variant;
-    }
-
     public function containerWidth(): string
     {
         return match ($this->width) {

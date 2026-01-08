@@ -29,10 +29,8 @@ final class TextBlock implements BlockDefinition
         return TextData::fromArray($data);
     }
 
-    public static function view(BlockData $data): string
+    public static function view(string $variant): string
     {
-        // TODO: toda view precisa ter 'cms::blocks.' preciso garantir isso em todos os blocks!
-        /** @var TextData $data */
-        return 'cms::blocks.text.'.$data->variant;
+        return 'cms::blocks.text.'.$variant;
     }
 }

@@ -1,0 +1,31 @@
+<?php
+declare(strict_types=1);
+
+namespace ClintonRocha\CMS\Blocks\{{ name }};
+
+use ClintonRocha\CMS\Contracts\BlockDefinition;
+use ClintonRocha\CMS\Contracts\BlockData;
+use ClintonRocha\CMS\Models\PageBlock;
+
+final class {{ name }}Block implements BlockDefinition
+{
+    public static function type(): string
+    {
+        return '{{ slug }}';
+    }
+
+    public static function label(): string
+    {
+        return '{{ name }}';
+    }
+
+    public static function fromModel(array $data): BlockData
+    {
+        return {{ name }}Data::fromArray($data);
+    }
+
+    public static function view(string $variant): string
+    {
+        return "cms::components.blocks.{{ slug }}.".$variant;
+    }
+}
