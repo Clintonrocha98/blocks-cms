@@ -6,7 +6,7 @@ namespace ClintonRocha\CMS\ValueObjects;
 
 use ClintonRocha\CMS\Contracts\BlockData;
 
-final class AnchorsBlockData implements BlockData
+final class AnchorsData implements BlockData
 {
     /** @var AnchorItem[] */
     public array $items;
@@ -27,11 +27,6 @@ final class AnchorsBlockData implements BlockData
             items: $data['items'] ?? [],
             variant: $data['variant'] ?? 'menu',
         );
-    }
-
-    public function view(): string
-    {
-        return 'blocks.anchors.'.$this->variant;
     }
 
     public function toArray(): array

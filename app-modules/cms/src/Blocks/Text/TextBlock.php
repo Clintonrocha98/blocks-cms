@@ -5,7 +5,6 @@ namespace ClintonRocha\CMS\Blocks\Text;
 
 use ClintonRocha\CMS\Contracts\BlockData;
 use ClintonRocha\CMS\Contracts\BlockDefinition;
-use ClintonRocha\CMS\Models\PageBlock;
 
 final class TextBlock implements BlockDefinition
 {
@@ -32,9 +31,9 @@ final class TextBlock implements BlockDefinition
         return TextSchema::schema();
     }
 
-    public static function fromModel(PageBlock $block): BlockData
+    public static function fromModel(array $data): BlockData
     {
-        return TextData::fromArray($block->data);
+        return TextData::fromArray($data);
     }
 
     public static function view(BlockData $data): string

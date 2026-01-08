@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace ClintonRocha\CMS\Filament\Schemas;
 
 use ClintonRocha\CMS\Contracts\BlockSchema;
+use ClintonRocha\CMS\Registry\BlockRegistry;
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
@@ -16,11 +17,7 @@ final class AnchorsBlockSchema implements BlockSchema
         return [
             Select::make('data.variant')
                 ->label('Estilo')
-                ->options([
-                    'menu' => 'Menu horizontal',
-                    'list' => 'Lista',
-                    'buttons' => 'Botões',
-                ])
+                ->options(fn()=>BlockRegistry::resolve('anchors')::variants())
                 ->default('menu')
                 ->required(),
 

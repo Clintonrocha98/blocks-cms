@@ -1,8 +1,8 @@
 @props(['data' => []])
 
 @php
-    use ClintonRocha\CMS\ValueObjects\AnchorItem;use ClintonRocha\CMS\ValueObjects\AnchorsBlockData;
-    /** @var AnchorsBlockData $data */
+    use ClintonRocha\CMS\ValueObjects\AnchorItem;use ClintonRocha\CMS\ValueObjects\AnchorsData;
+    /** @var AnchorsData $data */
     /** @var AnchorItem $item */
 @endphp
 

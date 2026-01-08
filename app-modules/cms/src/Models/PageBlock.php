@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace ClintonRocha\CMS\Models;
 
 use ClintonRocha\CMS\Contracts\BlockData;
+use ClintonRocha\CMS\Contracts\BlockDefinition;
 use ClintonRocha\CMS\Database\Factories\PageBlockFactory;
-use ClintonRocha\CMS\Enums\BlockType;
 use ClintonRocha\CMS\Registry\BlockRegistry;
 use Illuminate\Database\Eloquent\Attributes\UseFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -28,13 +28,16 @@ class PageBlock extends Model
 
     public function content(): BlockData
     {
-        return BlockRegistry::resolve($this->type)
-            ::fromModel($this);
+        return $this->blockRegistry()::fromModel($this->data);
     }
 
     public function view(): string
     {
-        return BlockRegistry::resolve($this->type)
-            ::view($this->content());
+        return $this->blockRegistry()::view($this->content());
+    }
+
+    private function blockRegistry(): BlockDefinition
+    {
+        return BlockRegistry::resolve($this->type);
     }
 }

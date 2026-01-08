@@ -4,38 +4,42 @@ namespace ClintonRocha\CMS\ValueObjects;
 
 use ClintonRocha\CMS\Contracts\BlockData;
 use ClintonRocha\CMS\Contracts\BlockDefinition;
-use ClintonRocha\CMS\Models\PageBlock;
+use ClintonRocha\CMS\Filament\Schemas\AnchorsBlockSchema;
 
 class AnchorBlock implements BlockDefinition
 {
-
     public static function type(): string
     {
-        return 'anchor';
+        return 'anchors';
     }
 
     public static function variants(): array
     {
-        // TODO: Implement variants() method.
+        return [
+            'menu' => 'Menu horizontal',
+            'list' => 'Lista',
+            'buttons' => 'Botões',
+        ];
     }
 
     public static function label(): string
     {
-        // TODO: Implement label() method.
+        return 'Âncoras';
     }
 
     public static function schema(): array
     {
-        // TODO: Implement schema() method.
+        return AnchorsBlockSchema::schema();
     }
 
-    public static function fromModel(PageBlock $block): BlockData
+    public static function fromModel(array $data): BlockData
     {
-        // TODO: Implement fromModel() method.
+        return AnchorsData::fromArray($data);
     }
 
     public static function view(BlockData $data): string
     {
-        // TODO: Implement view() method.
+        /** @var AnchorsData $data */
+        return 'cms::blocks.anchors.'.$data->variant;
     }
 }
