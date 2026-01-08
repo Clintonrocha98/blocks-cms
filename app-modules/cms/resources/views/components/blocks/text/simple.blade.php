@@ -1,7 +1,7 @@
 @props(['data'=>[]])
 @php
-    use ClintonRocha\CMS\ValueObjects\TextBlockData;
-    /** @var TextBlockData $data  */
+    use ClintonRocha\CMS\Blocks\Text;
+    /** @var TextData $data  */
 @endphp
 <section class="w-full py-16">
     <div class="mx-auto px-6 {{ $data->containerWidth() }} {{ $data->textAlign() }}">

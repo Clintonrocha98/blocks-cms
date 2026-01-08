@@ -2,28 +2,26 @@
 
 declare(strict_types=1);
 
-namespace ClintonRocha\CMS\Filament\Schemas;
+namespace ClintonRocha\CMS\Blocks\Text;
 
 use ClintonRocha\CMS\Contracts\BlockSchema;
+use ClintonRocha\CMS\Registry\BlockRegistry;
 use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Schemas\Components\Grid;
 use Filament\Schemas\Components\Utilities\Get;
 
-final class TextBlockSchema implements BlockSchema
+final class TextSchema implements BlockSchema
 {
     public static function schema(): array
     {
         return [
             Select::make('data.variant')
                 ->label('Tipo de texto')
-                ->options([
-                    'simple' => 'Texto simples',
-                    'rich' => 'Texto rico',
-                ])
-                ->default('simple')
+                ->options(fn () => BlockRegistry::resolve('text')::variants())
                 ->required()
+                ->default('simple')
                 ->live()
                 ->afterStateUpdated(fn(Select $component) => $component
                     ->getContainer()
@@ -66,8 +64,6 @@ final class TextBlockSchema implements BlockSchema
                     ],
                 })
                 ->key('textVariantFields'),
-
         ];
-
     }
 }

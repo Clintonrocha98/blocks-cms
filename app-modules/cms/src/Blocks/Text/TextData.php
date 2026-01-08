@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace ClintonRocha\CMS\ValueObjects;
+namespace ClintonRocha\CMS\Blocks\Text;
 
 use ClintonRocha\CMS\Contracts\BlockData;
 
-final class TextBlockData implements BlockData
+final class TextData implements BlockData
 {
     public function __construct(
         public string $text,

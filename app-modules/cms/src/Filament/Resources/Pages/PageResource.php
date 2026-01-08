@@ -5,13 +5,12 @@ declare(strict_types=1);
 namespace ClintonRocha\CMS\Filament\Resources\Pages;
 
 use BackedEnum;
-use ClintonRocha\CMS\Enums\BlockType;
 use ClintonRocha\CMS\Filament\Resources\Pages\Pages\CreatePage;
 use ClintonRocha\CMS\Filament\Resources\Pages\Pages\EditPage;
 use ClintonRocha\CMS\Filament\Resources\Pages\Pages\EditPageContent;
 use ClintonRocha\CMS\Filament\Resources\Pages\Pages\ListPages;
-use ClintonRocha\CMS\Filament\Schemas\BlockSchemaResolver;
 use ClintonRocha\CMS\Models\Page;
+use ClintonRocha\CMS\Registry\BlockRegistry;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
@@ -57,14 +56,14 @@ class PageResource extends Resource
                     ->orderable('position')
                     ->schema([
                         Select::make('type')
-                            ->options(BlockType::class)
+                            ->options(fn() => BlockRegistry::options())
                             ->required()
                             ->reactive(),
 
                         Group::make(fn($get) => $get('type')
-                            ? BlockSchemaResolver::resolve($get('type'))
+                            ? BlockRegistry::resolve($get('type'))::schema()
                             : []
-                        )->reactive(),
+                        )->reactive()
                     ])
                     ->collapsed()
                     ->cloneable()

@@ -1,0 +1,45 @@
+<?php
+declare(strict_types=1);
+
+namespace ClintonRocha\CMS\Blocks\Text;
+
+use ClintonRocha\CMS\Contracts\BlockData;
+use ClintonRocha\CMS\Contracts\BlockDefinition;
+use ClintonRocha\CMS\Models\PageBlock;
+
+final class TextBlock implements BlockDefinition
+{
+    public static function type(): string
+    {
+        return 'text';
+    }
+
+    public static function variants(): array
+    {
+        return [
+            'simple' => 'Texto simples',
+            'rich' => 'Texto rico',
+        ];
+    }
+
+    public static function label(): string
+    {
+        return 'Text';
+    }
+
+    public static function schema(): array
+    {
+        return TextSchema::schema();
+    }
+
+    public static function fromModel(PageBlock $block): BlockData
+    {
+        return TextData::fromArray($block->data);
+    }
+
+    public static function view(BlockData $data): string
+    {
+        /** @var TextData $data */
+        return "cms::blocks.text.{$data->variant}";
+    }
+}
