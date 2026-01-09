@@ -1,72 +1,74 @@
 # MVP CMS
 
-Sistema de gerenciamento de páginas dinâmicas orientado a blocos, focado em agilidade, flexibilidade e experiência de edição moderna.
+> Um CMS Laravel altamente modular e extensível
 
-Projetado do zero para equipes de produto, marketing e desenvolvedores que desejam entregar landings, portais, sites institucionais ou áreas dinâmicas sem depender do time de engenharia.
+## Visão Geral
+Este projeto implementa um **CMS modular** usando Laravel, pensado para uso próprio, como plugin, pacote ou módulo interno em outros sistemas. Tudo o que é negócio e componentes reside na pasta `app-modules`, sendo o núcleo do CMS em `app-modules/cms`.
 
-## Principais Recursos
+## Iniciando o Projeto Laravel (Configuração Básica)
+1. Instale as dependências:
+   ```bash
+   composer install
+   ```
+2. Configure variáveis de ambiente em `.env` (copie `.env.example` se existir).
+3. Execute as migrations:
+   ```bash
+   php artisan migrate
+   ```
+4. Gere a chave da aplicação:
+   ```bash
+   php artisan key:generate
+   ```
+5. Inicie o servidor:
+   ```bash
+   composer run dev
+   ```
 
-- 🧩 **Arquitetura modular por blocos**: Construa páginas combinando diferentes blocos de conteúdo (texto, imagem, CTA, formulários e mais)
-- 🎨 **Interface administrativa moderna**: Painel de controle via [Filament](https://filamentphp.com/) para CRUD das páginas, dos blocos e preview dinâmico do site
-- ⚡ **Performance e build modernos**: Utiliza [Vite](https://vitejs.dev/) para assets e [TailwindCSS](https://tailwindcss.com/) para estilização rápida
-- ✅ **Sistema de formulários reutilizáveis**: Defina regras de validação, aceite submissões dinâmicas e customize comportamentos facilmente
-- 🔒 **Pronto para produção**: Queue, cache, storage, logs e múltiplos ambientes integrados nativamente com Laravel
-- 🧑‍💻 **Extensibilidade**: Adicione novos blocos via ValueObjects PHP, schemas ou Vue/React no frontend
+## Makefile e Automação
+O projeto possui Makefile com scripts úteis:
+- `make build`: build do projeto
+- `make pint`: formatação com Laravel Pint
+- `make rector`: refatoração automática
 
-## Instalação
+Consulte o Makefile para outros comandos e automações especificas do projeto.
 
-Pré-requisitos:
-- PHP ^8.2
-- Node.js & npm
-- Composer
-- Banco SQLite (default) ou alterar para MySQL/Postgres
+## Arquitetura Modular
+- Cada módulo/autonomia de negócio fica em uma subpasta de `app-modules`.
+- O núcleo do CMS fica em `app-modules/cms`.
+- Componentes ("blocos") residem em `app-modules/cms/src/Blocks/NOME/`, cada pasta representa um componente.
 
-**Passos:**
+## Estrutura de um Bloco (Componente)
+Dentro de `app-modules/cms/src/Blocks/NOME/` cada componente possui:
+- **data**: Objeto DTO do componente, com todos os dados usados na renderização e edição.
+- **schema**: Schema Filament para gestão/admin dos dados do bloco e formulários. **Todo schema deve usar o trait** `@app-modules/cms/src/Trait/HasVariants.php` **e chamar** `self::variantField('nome-do-componente')` no início do schema. Isso garante edição/seleção dinâmica das variações do componente de forma padronizada!
+- **block**: Classe principal deste componente, que referencia schema, data, view, type (tipo do bloco) e label (nome amigável).
 
-```bash
-# Clone o projeto (ou baixe o zip)
-git clone ...
-cd mvp-cms
+## Renderização de Variações
+A função `self::variantField()` no schema, junto ao trait HasVariants, adiciona um campo select que lista todas as variações disponíveis para aquele bloco. As variações são descobertas automaticamente via **BlockRegistry**.
 
-# Instale as dependências Composer e NPM
-composer install
-npm install
+## Descoberta Automática de Componentes
+O arquivo **`@app-modules/cms/src/Registry/BlockRegistry.php`** é responsável por descobrir todos os componentes e suas variações automaticamente usando:
+- Scanning dos blocos criados em `app-modules/cms/src/Blocks/`.
+- Procura pelas variações nos arquivos blade em `app-modules/cms/resources/views/components/blocks/<nome>/<variante>.blade.php`.
 
-# Copie o arquivo de ambiente e gere a chave Laravel
-cp .env.example .env
-php artisan key:generate
+## Views e Variações dos Componentes
+- Views de componentes residem em `app-modules/cms/resources/views/components/blocks/<nome-do-bloco>/`.
+- Cada arquivo `.blade.php` dentro da pasta do bloco representa uma **variação/versão**.
 
-# Rode as migrações para criar as tabelas básicas
-db sqlite:touch (ou configure seu banco no .env)
-php artisan migrate
-
-# Rode o servidor de desenvolvimento e assets
-dev (roda tudo em paralelo)
-# ou em terminais separados:
-php artisan serve
-npm run dev
+## Criação de Componentes e Variações por Comando
+### Criar Novo Componente:
 ```
+php artisan cms:make-block NomeDoBloco --variants=default,grid
+```
+Cria toda estrutura: classe principal, DTO, schema, e views blade para cada variante.
 
-Acesse: [http://localhost:8000](http://localhost:8000)
+### Criar Nova Variação de Componente:
+```
+php artisan cms:make-variant nome-do-bloco nova-variacao
+```
+Cria um novo arquivo Blade para a variação dentro da pasta de views do componente.
 
-## Organização do Projeto
 
-- **app/Models/Page.php / PageBlock.php**: Estrutura de página e seus blocos
-- **app/Filament/**: Configuração dos painéis administrativos
-- **resources/views/**: Blades dos blocos e páginas
-- **app/Forms/**: Registro de formulários reutilizáveis
-- **public/js/**: Assets produzidos pelo Vite
-- **database/migrations/**: Estrutura do banco de dados
 
-## Como criar um novo bloco?
-1. Crie um ValueObject em `app/ValueObjects`
-2. Crie schema em `app/Filament/Schemas`
-3. Adicione a renderização Blade em `resources/views/components/blocks`
-4. Registre o bloco no lugar apropriado
 
-## Licença
 
-MIT. Sinta-se livre para usar, modificar e contribuir!
-
----
-Desenvolvido com Laravel, Filament, Vite e TailwindCSS.
