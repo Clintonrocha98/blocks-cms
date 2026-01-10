@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace ClintonRocha\CMS\Database\Factories;
 
 use App\Models\Block;
+use ClintonRocha\CMS\Models\Page;
 use ClintonRocha\CMS\Models\PageBlock;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Date;
@@ -19,13 +20,11 @@ class PageBlockFactory extends Factory
     public function definition(): array
     {
         return [
-            'page_id' => fake()->word(),
+            'page_id' => Page::factory(),
             'position' => fake()->word(),
             'data' => fake()->words(),
             'created_at' => Date::now(),
             'updated_at' => Date::now(),
-
-            'block_id' => Block::factory(),
         ];
     }
 }
