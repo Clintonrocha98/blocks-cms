@@ -36,7 +36,7 @@ O núcleo do CMS está localizado em `app-modules/cms`.
 3. Execute as migrations:
 
    ```bash
-   php artisan migrate
+   php artisan migrate --seed
    ```
 
 4. Inicie o ambiente de desenvolvimento:
