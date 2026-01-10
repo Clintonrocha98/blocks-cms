@@ -9,12 +9,12 @@ use ClintonRocha\CMS\Contracts\BlockDefinition;
 
 class FooterBlock implements BlockDefinition
 {
-    public function type(): string
+    public static function type(): string
     {
         return 'footer';
     }
 
-    public function label(): string
+    public static function label(): string
     {
         return 'Rodapé';
     }

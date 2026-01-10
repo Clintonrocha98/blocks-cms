@@ -10,7 +10,7 @@ use Filament\Forms\Components\TextInput;
 
 final class HeroSchema implements BlockSchema
 {
-    public function schema(): array
+    public static function schema(): array
     {
         return [
 

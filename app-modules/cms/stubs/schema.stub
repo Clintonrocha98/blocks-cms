@@ -9,7 +9,7 @@ use Filament\Forms\Components\TextInput;
 
 final class {{ name }}Schema implements BlockSchema
 {
-    public function schema(): array
+    public static function schema(): array
     {
         return [
             TextInput::make('data.example')

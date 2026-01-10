@@ -9,12 +9,12 @@ use ClintonRocha\CMS\Contracts\BlockDefinition;
 
 class FormBlock implements BlockDefinition
 {
-    public function type(): string
+    public static function type(): string
     {
         return 'form';
     }
 
-    public function label(): string
+    public static function label(): string
     {
         return 'Formulário';
     }

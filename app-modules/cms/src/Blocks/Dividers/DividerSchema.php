@@ -9,7 +9,7 @@ use Filament\Forms\Components\Select;
 
 final class DividerSchema implements BlockSchema
 {
-    public function schema(): array
+    public static function schema(): array
     {
         return [
 

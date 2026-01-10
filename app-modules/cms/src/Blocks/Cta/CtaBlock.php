@@ -9,12 +9,12 @@ use ClintonRocha\CMS\Contracts\BlockDefinition;
 
 class CtaBlock implements BlockDefinition
 {
-    public function type(): string
+    public static function type(): string
     {
         return 'cta';
     }
 
-    public function label(): string
+    public static function label(): string
     {
         return 'Call to Action';
     }

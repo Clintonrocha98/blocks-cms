@@ -9,12 +9,12 @@ use ClintonRocha\CMS\Contracts\BlockDefinition;
 
 class FeaturesBlock implements BlockDefinition
 {
-    public function type(): string
+    public static function type(): string
     {
         return 'features';
     }
 
-    public function label(): string
+    public static function label(): string
     {
         return 'Recursos';
     }

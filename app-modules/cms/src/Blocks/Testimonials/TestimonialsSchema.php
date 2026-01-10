@@ -12,7 +12,7 @@ use Filament\Forms\Components\TextInput;
 
 final class TestimonialsSchema implements BlockSchema
 {
-    public function schema(): array
+    public static function schema(): array
     {
         return [
 

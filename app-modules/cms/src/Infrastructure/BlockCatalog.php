@@ -54,7 +54,7 @@ final class BlockCatalog
                 $class = self::classFromPath($path);
 
                 return [
-                    $class->type() => $class->label(),
+                    $class::type() => $class::label(),
                 ];
             })
             ->all();

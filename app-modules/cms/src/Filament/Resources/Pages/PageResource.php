@@ -20,6 +20,7 @@ use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Resources\Resource;
 use Filament\Schemas\Components\Group;
+use Filament\Schemas\Components\Utilities\Get;
 use Filament\Schemas\Components\Utilities\Set;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
@@ -60,12 +61,12 @@ class PageResource extends Resource
                             ->required()
                             ->reactive(),
 
-                        Group::make(fn ($get) => [
+                        Group::make(fn (Get $get) => [
                             Select::make('data.variant')
                                 ->label('Components')
-                                ->options(fn () => BlockCatalog::variants($get('type')))
+                                ->options(fn () => $get('type') ? BlockCatalog::variants($get('type')) : [])
                                 ->required(),
-                            ...BlockFactory::make($get('type'))->schema(),
+                            ...($get('type') ? BlockFactory::make($get('type'))->schema() : []),
                         ])->reactive(),
                     ])
                     ->collapsed()

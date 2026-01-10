@@ -6,5 +6,5 @@ namespace ClintonRocha\CMS\Contracts;
 
 interface BlockSchema
 {
-    public function schema(): array;
+    public static function schema(): array;
 }

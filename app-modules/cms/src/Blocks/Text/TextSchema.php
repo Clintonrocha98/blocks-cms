@@ -10,7 +10,7 @@ use Filament\Forms\Components\Textarea;
 
 final class TextSchema implements BlockSchema
 {
-    public function schema(): array
+    public static function schema(): array
     {
         return [
             Select::make('data.width')

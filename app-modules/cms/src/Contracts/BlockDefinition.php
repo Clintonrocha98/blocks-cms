@@ -6,9 +6,9 @@ namespace ClintonRocha\CMS\Contracts;
 
 interface BlockDefinition
 {
-    public function type(): string;
+    public static function type(): string;
 
-    public function label(): string;
+    public static function label(): string;
 
     public function schema(): array;
 

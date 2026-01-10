@@ -9,12 +9,12 @@ use ClintonRocha\CMS\Contracts\BlockDefinition;
 
 class DividerBlock implements BlockDefinition
 {
-    public function type(): string
+    public static function type(): string
     {
         return 'divider';
     }
 
-    public function label(): string
+    public static function label(): string
     {
         return 'Divisor';
     }
