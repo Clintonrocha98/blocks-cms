@@ -9,27 +9,27 @@ use ClintonRocha\CMS\Contracts\BlockDefinition;
 
 class TestmonialBlock implements BlockDefinition
 {
-    public static function type(): string
+    public function type(): string
     {
         return 'testimonials';
     }
 
-    public static function label(): string
+    public function label(): string
     {
         return 'Testimonials';
     }
 
-    public static function schema(): array
+    public function schema(): array
     {
         return TestimonialsSchema::schema();
     }
 
-    public static function fromModel(array $data): BlockData
+    public function fromModel(array $data): BlockData
     {
         return TestimonialsData::fromArray($data);
     }
 
-    public static function view(string $variant): string
+    public function view(string $variant): string
     {
         return 'cms::blocks.testimonials.'.$variant;
     }

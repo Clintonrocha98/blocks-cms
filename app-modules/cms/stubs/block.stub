@@ -9,27 +9,27 @@ use ClintonRocha\CMS\Models\PageBlock;
 
 final class {{ name }}Block implements BlockDefinition
 {
-    public static function type(): string
+    public function type(): string
     {
         return '{{ slug }}';
     }
 
-    public static function label(): string
+    public function label(): string
     {
         return '{{ name }}';
     }
 
-    public static function schema(): array
+    public function schema(): array
     {
         return {{ name }}Schema::schema();
     }
 
-    public static function fromModel(array $data): BlockData
+    public function fromModel(array $data): BlockData
     {
         return {{ name }}Data::fromArray($data);
     }
 
-    public static function view(string $variant): string
+    public function view(string $variant): string
     {
         return 'cms.blocks.{{ slug }}.'.$variant;
     }

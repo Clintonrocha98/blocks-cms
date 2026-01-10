@@ -9,27 +9,27 @@ use ClintonRocha\CMS\Contracts\BlockDefinition;
 
 class CtaBlock implements BlockDefinition
 {
-    public static function type(): string
+    public function type(): string
     {
         return 'cta';
     }
 
-    public static function label(): string
+    public function label(): string
     {
         return 'Call to Action';
     }
 
-    public static function schema(): array
+    public function schema(): array
     {
         return CtaSchema::schema();
     }
 
-    public static function fromModel(array $data): BlockData
+    public function fromModel(array $data): BlockData
     {
         return CtaData::fromArray($data);
     }
 
-    public static function view(string $variant): string
+    public function view(string $variant): string
     {
         return 'cms::blocks.cta.'.$variant;
     }

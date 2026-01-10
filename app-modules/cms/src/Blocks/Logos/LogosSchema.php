@@ -5,19 +5,15 @@ declare(strict_types=1);
 namespace ClintonRocha\CMS\Blocks\Logos;
 
 use ClintonRocha\CMS\Contracts\BlockSchema;
-use ClintonRocha\CMS\Trait\HasVariants;
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 
 final class LogosSchema implements BlockSchema
 {
-    use HasVariants;
-
-    public static function schema(): array
+    public function schema(): array
     {
         return [
-            self::variantField('logos'),
 
             Select::make('data.columns')
                 ->label('Colunas')

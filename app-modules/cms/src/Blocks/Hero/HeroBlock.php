@@ -9,27 +9,27 @@ use ClintonRocha\CMS\Contracts\BlockDefinition;
 
 class HeroBlock implements BlockDefinition
 {
-    public static function type(): string
+    public function type(): string
     {
         return 'hero';
     }
 
-    public static function label(): string
+    public function label(): string
     {
         return 'Hero';
     }
 
-    public static function schema(): array
+    public function schema(): array
     {
         return HeroSchema::schema();
     }
 
-    public static function fromModel(array $data): BlockData
+    public function fromModel(array $data): BlockData
     {
         return HeroData::fromArray($data);
     }
 
-    public static function view(string $variant): string
+    public function view(string $variant): string
     {
         return 'cms.blocks.hero.'.$variant;
     }

@@ -9,27 +9,27 @@ use ClintonRocha\CMS\Contracts\BlockDefinition;
 
 class FooterBlock implements BlockDefinition
 {
-    public static function type(): string
+    public function type(): string
     {
         return 'footer';
     }
 
-    public static function label(): string
+    public function label(): string
     {
         return 'Rodapé';
     }
 
-    public static function schema(): array
+    public function schema(): array
     {
         return FooterSchema::schema();
     }
 
-    public static function fromModel(array $data): BlockData
+    public function fromModel(array $data): BlockData
     {
         return FooterData::fromArray($data);
     }
 
-    public static function view(string $variant): string
+    public function view(string $variant): string
     {
         return 'cms::blocks.footer.'.$variant;
     }

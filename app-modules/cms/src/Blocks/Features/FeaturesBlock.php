@@ -9,27 +9,27 @@ use ClintonRocha\CMS\Contracts\BlockDefinition;
 
 class FeaturesBlock implements BlockDefinition
 {
-    public static function type(): string
+    public function type(): string
     {
         return 'features';
     }
 
-    public static function label(): string
+    public function label(): string
     {
         return 'Recursos';
     }
 
-    public static function schema(): array
+    public function schema(): array
     {
         return FeaturesSchema::schema();
     }
 
-    public static function fromModel(array $data): BlockData
+    public function fromModel(array $data): BlockData
     {
         return FeaturesData::fromArray($data);
     }
 
-    public static function view(string $variant): string
+    public function view(string $variant): string
     {
         return 'cms::blocks.features.'.$variant;
     }

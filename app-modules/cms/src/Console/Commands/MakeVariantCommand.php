@@ -25,7 +25,7 @@ class MakeVariantCommand extends Command
         $variant = Str::kebab($this->argument('variant'));
 
         $viewPath = base_path(
-            'app-modules/cms/resources/views/components/blocks/' . $block
+            'app-modules/cms/resources/views/components/blocks/'.$block
         );
 
         if (! $files->isDirectory($viewPath)) {
@@ -73,7 +73,7 @@ class MakeVariantCommand extends Command
         string $target,
         array $data
     ): void {
-        $stubPath = base_path('app-modules/cms/stubs/' . $stub);
+        $stubPath = base_path('app-modules/cms/stubs/'.$stub);
 
         $content = $files->get($stubPath);
 

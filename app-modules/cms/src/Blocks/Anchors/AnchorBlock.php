@@ -9,27 +9,27 @@ use ClintonRocha\CMS\Contracts\BlockDefinition;
 
 class AnchorBlock implements BlockDefinition
 {
-    public static function type(): string
+    public function type(): string
     {
         return 'anchors';
     }
 
-    public static function label(): string
+    public function label(): string
     {
         return 'Âncoras';
     }
 
-    public static function schema(): array
+    public function schema(): array
     {
         return AnchorsSchema::schema();
     }
 
-    public static function fromModel(array $data): BlockData
+    public function fromModel(array $data): BlockData
     {
         return AnchorsData::fromArray($data);
     }
 
-    public static function view(string $variant): string
+    public function view(string $variant): string
     {
         return 'cms::blocks.anchors.'.$variant;
     }

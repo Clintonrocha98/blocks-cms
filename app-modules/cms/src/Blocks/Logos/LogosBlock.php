@@ -9,27 +9,27 @@ use ClintonRocha\CMS\Contracts\BlockDefinition;
 
 class LogosBlock implements BlockDefinition
 {
-    public static function type(): string
+    public function type(): string
     {
         return 'logos';
     }
 
-    public static function label(): string
+    public function label(): string
     {
         return 'Logos de Clientes';
     }
 
-    public static function schema(): array
+    public function schema(): array
     {
         return LogosSchema::schema();
     }
 
-    public static function fromModel(array $data): BlockData
+    public function fromModel(array $data): BlockData
     {
         return LogosData::fromArray($data);
     }
 
-    public static function view(string $variant): string
+    public function view(string $variant): string
     {
         return 'cms::blocks.logos.'.$variant;
     }

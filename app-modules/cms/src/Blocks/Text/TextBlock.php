@@ -9,27 +9,27 @@ use ClintonRocha\CMS\Contracts\BlockDefinition;
 
 final class TextBlock implements BlockDefinition
 {
-    public static function type(): string
+    public function type(): string
     {
         return 'text';
     }
 
-    public static function label(): string
+    public function label(): string
     {
         return 'Text';
     }
 
-    public static function schema(): array
+    public function schema(): array
     {
         return TextSchema::schema();
     }
 
-    public static function fromModel(array $data): BlockData
+    public function fromModel(array $data): BlockData
     {
         return TextData::fromArray($data);
     }
 
-    public static function view(string $variant): string
+    public function view(string $variant): string
     {
         return 'cms::blocks.text.'.$variant;
     }

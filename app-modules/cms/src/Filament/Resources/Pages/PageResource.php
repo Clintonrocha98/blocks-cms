@@ -8,8 +8,9 @@ use BackedEnum;
 use ClintonRocha\CMS\Filament\Resources\Pages\Pages\CreatePage;
 use ClintonRocha\CMS\Filament\Resources\Pages\Pages\EditPage;
 use ClintonRocha\CMS\Filament\Resources\Pages\Pages\ListPages;
+use ClintonRocha\CMS\Infrastructure\BlockCatalog;
+use ClintonRocha\CMS\Infrastructure\BlockFactory;
 use ClintonRocha\CMS\Models\Page;
-use ClintonRocha\CMS\Registry\BlockRegistry;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
@@ -55,14 +56,17 @@ class PageResource extends Resource
                     ->orderable('position')
                     ->schema([
                         Select::make('type')
-                            ->options(fn () => BlockRegistry::options())
+                            ->options(fn () => BlockCatalog::options())
                             ->required()
                             ->reactive(),
 
-                        Group::make(fn ($get) => $get('type')
-                            ? BlockRegistry::resolve($get('type'))::schema()
-                            : []
-                        )->reactive(),
+                        Group::make(fn ($get) => [
+                            Select::make('data.variant')
+                                ->label('Components')
+                                ->options(fn () => BlockCatalog::variants($get('type')))
+                                ->required(),
+                            ...BlockFactory::make($get('type'))->schema(),
+                        ])->reactive(),
                     ])
                     ->collapsed()
                     ->cloneable()

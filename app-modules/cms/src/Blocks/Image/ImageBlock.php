@@ -9,27 +9,27 @@ use ClintonRocha\CMS\Contracts\BlockDefinition;
 
 class ImageBlock implements BlockDefinition
 {
-    public static function type(): string
+    public function type(): string
     {
         return 'image';
     }
 
-    public static function label(): string
+    public function label(): string
     {
         return 'Imagem';
     }
 
-    public static function schema(): array
+    public function schema(): array
     {
         return ImageSchema::schema();
     }
 
-    public static function fromModel(array $data): BlockData
+    public function fromModel(array $data): BlockData
     {
         return ImageData::fromArray($data);
     }
 
-    public static function view(string $variant): string
+    public function view(string $variant): string
     {
         return 'cms::blocks.image.'.$variant;
     }

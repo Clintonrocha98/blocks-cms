@@ -6,13 +6,13 @@ namespace ClintonRocha\CMS\Contracts;
 
 interface BlockDefinition
 {
-    public static function type(): string;
+    public function type(): string;
 
-    public static function label(): string;
+    public function label(): string;
 
-    public static function schema(): array;
+    public function schema(): array;
 
-    public static function fromModel(array $data): BlockData;
+    public function fromModel(array $data): BlockData;
 
-    public static function view(string $variant): string;
+    public function view(string $variant): string;
 }

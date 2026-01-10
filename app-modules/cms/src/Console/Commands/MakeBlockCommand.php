@@ -24,8 +24,8 @@ class MakeBlockCommand extends Command
         $name = Str::studly($this->argument('name'));
         $slug = Str::kebab($name);
 
-        $blockPath = base_path('app-modules/cms/src/Blocks/' . $name);
-        $viewPath = base_path('app-modules/cms/resources/views/components/blocks/' . $slug);
+        $blockPath = base_path('app-modules/cms/src/Blocks/'.$name);
+        $viewPath = base_path('app-modules/cms/resources/views/components/blocks/'.$slug);
 
         if ($files->exists($blockPath) && ! $this->option('force')) {
             $this->components->error(sprintf('Block %s already exists.', $name));
@@ -84,7 +84,7 @@ class MakeBlockCommand extends Command
         string $target,
         array $data
     ): void {
-        $stubPath = base_path('app-modules/cms/stubs/' . $stub);
+        $stubPath = base_path('app-modules/cms/stubs/'.$stub);
 
         $content = $files->get($stubPath);
 

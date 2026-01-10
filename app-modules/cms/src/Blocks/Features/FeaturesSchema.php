@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace ClintonRocha\CMS\Blocks\Features;
 
 use ClintonRocha\CMS\Contracts\BlockSchema;
-use ClintonRocha\CMS\Trait\HasVariants;
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
@@ -13,12 +12,9 @@ use Filament\Forms\Components\TextInput;
 
 final class FeaturesSchema implements BlockSchema
 {
-    use HasVariants;
-
-    public static function schema(): array
+    public function schema(): array
     {
         return [
-            self::variantField('features'),
 
             Select::make('data.columns')
                 ->label('Colunas')
