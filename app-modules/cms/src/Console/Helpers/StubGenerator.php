@@ -20,6 +20,13 @@ final readonly class StubGenerator
      */
     public function generateFromStub(string $stub, string $target, array $data = [], bool $force = false): array
     {
+        $defaults = [
+            'namespace' => $this->paths->blockNamespace(),
+            'view' => $this->paths->viewsNamespace(),
+        ];
+
+        $data = array_merge($defaults, $data);
+
         $stubPath = $this->paths->stubsPath().DIRECTORY_SEPARATOR.$stub;
 
         if (!$this->files->exists($stubPath)) {
