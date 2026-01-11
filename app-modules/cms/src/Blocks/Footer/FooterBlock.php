@@ -31,6 +31,6 @@ class FooterBlock implements BlockDefinition
 
     public function view(string $variant): string
     {
-        return 'cms::blocks.footer.'.$variant;
+        return config('cms.views.namespace', 'cms::blocks').'.footer.'.$variant;
     }
 }

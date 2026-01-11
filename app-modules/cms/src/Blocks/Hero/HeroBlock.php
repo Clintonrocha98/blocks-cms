@@ -31,6 +31,6 @@ class HeroBlock implements BlockDefinition
 
     public function view(string $variant): string
     {
-        return 'cms.blocks.hero.'.$variant;
+        return config('cms.views.namespace', 'cms::blocks').'.hero.'.$variant;
     }
 }

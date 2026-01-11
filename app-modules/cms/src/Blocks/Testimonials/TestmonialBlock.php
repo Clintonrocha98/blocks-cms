@@ -31,6 +31,6 @@ class TestmonialBlock implements BlockDefinition
 
     public function view(string $variant): string
     {
-        return 'cms::blocks.testimonials.'.$variant;
+        return config('cms.views.namespace', 'cms::blocks').'.testimonials.'.$variant;
     }
 }

@@ -31,6 +31,6 @@ class CtaBlock implements BlockDefinition
 
     public function view(string $variant): string
     {
-        return 'cms::blocks.cta.'.$variant;
+        return config('cms.views.namespace', 'cms::blocks').'.cta.'.$variant;
     }
 }

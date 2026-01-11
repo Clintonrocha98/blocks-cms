@@ -31,6 +31,6 @@ class ImageBlock implements BlockDefinition
 
     public function view(string $variant): string
     {
-        return 'cms::blocks.image.'.$variant;
+        return config('cms.views.namespace', 'cms::blocks').'.image.'.$variant;
     }
 }

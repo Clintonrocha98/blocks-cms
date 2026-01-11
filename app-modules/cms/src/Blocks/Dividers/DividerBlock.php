@@ -31,6 +31,6 @@ class DividerBlock implements BlockDefinition
 
     public function view(string $variant): string
     {
-        return 'cms::blocks.divider.'.$variant;
+        return config('cms.views.namespace', 'cms::blocks').'.divider.'.$variant;
     }
 }

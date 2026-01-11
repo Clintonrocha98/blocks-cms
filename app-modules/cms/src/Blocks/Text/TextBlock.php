@@ -31,6 +31,6 @@ final class TextBlock implements BlockDefinition
 
     public function view(string $variant): string
     {
-        return 'cms::blocks.text.'.$variant;
+        return config('cms.views.namespace', 'cms::blocks').'.text.'.$variant;
     }
 }

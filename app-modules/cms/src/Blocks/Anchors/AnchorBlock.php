@@ -31,6 +31,6 @@ class AnchorBlock implements BlockDefinition
 
     public function view(string $variant): string
     {
-        return 'cms::blocks.anchors.'.$variant;
+        return config('cms.views.namespace', 'cms::blocks').'.anchors.'.$variant;
     }
 }

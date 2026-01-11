@@ -31,6 +31,6 @@ class LogosBlock implements BlockDefinition
 
     public function view(string $variant): string
     {
-        return 'cms::blocks.logos.'.$variant;
+        return config('cms.views.namespace', 'cms::blocks').'.logos.'.$variant;
     }
 }
