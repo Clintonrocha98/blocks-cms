@@ -4,89 +4,97 @@ declare(strict_types=1);
 
 namespace ClintonRocha\CMS\Console\Commands;
 
+use ClintonRocha\CMS\Console\Actions\MakeVariantAction;
 use Illuminate\Console\Command;
+use Illuminate\Contracts\Console\PromptsForMissingInput;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Str;
+use function Laravel\Prompts\select;
+use function Laravel\Prompts\text;
+use function Laravel\Prompts\confirm;
 
-class MakeVariantCommand extends Command
+class MakeVariantCommand extends Command implements PromptsForMissingInput
 {
     protected $signature = 'cms:make-variant
-    {block : Block name (slug ou StudlyCase)}
-    {variant : Variant name}
-    {--force : Overwrite if exists}';
+        {block : Nome do bloco (slug ou StudlyCase)}
+        {variant : Nome da variação}
+        {--force : Sobrescrever se existir}';
 
-    protected $description = 'Create a new variant for an existing CMS block';
+    protected $description = 'Cria uma nova variação para um bloco existente do CMS';
 
-    private array $createdFiles = [];
-
-    public function handle(Filesystem $files): int
+    public function promptForMissingArgumentsUsing(): array
     {
-        $block = Str::kebab($this->argument('block'));
-        $variant = Str::kebab($this->argument('variant'));
+        return [
+            'block' => function () {
+                $dir = base_path('app-modules/cms/resources/views/components/blocks');
 
-        $viewPath = base_path(
-            'app-modules/cms/resources/views/components/blocks/'.$block
-        );
+                $choices = [];
+                if (is_dir($dir)) {
+                    foreach (scandir($dir) as $item) {
+                        if ($item === '.' || $item === '..') {
+                            continue;
+                        }
 
-        if (! $files->isDirectory($viewPath)) {
-            $this->components->error(sprintf("Block '%s' does not exist.", $block));
+                        if (is_dir($dir.DIRECTORY_SEPARATOR.$item)) {
+                            $choices[] = $item;
+                        }
+                    }
+                }
+
+                if (! empty($choices)) {
+                    return select(label: 'Escolha o bloco', options: $choices);
+                }
+
+                return text(label: 'Escolha o bloco', placeholder: 'Digite o slug ou nome do bloco');
+            },
+            'variant' => 'Nome da variação',
+        ];
+    }
+
+    public function handle(MakeVariantAction $action, Filesystem $files): int
+    {
+        $block = $this->argument('block');
+        $variant = $this->argument('variant');
+
+        $blockSlug = Str::kebab($block);
+        $variant = Str::kebab($variant);
+
+        $viewPath = base_path('app-modules/cms/resources/views/components/blocks/'.$blockSlug);
+
+        if (!$files->isDirectory($viewPath)) {
+            $this->components->error(sprintf("O bloco '%s' não existe.", $blockSlug));
 
             return self::FAILURE;
         }
 
-        $target = sprintf('%s/%s.blade.php', $viewPath, $variant);
+        $force = (bool) $this->option('force');
 
-        if ($files->exists($target) && ! $this->option('force')) {
-            $this->components->error(sprintf("Variant '%s' already exists.", $variant));
+        $result = $action->handle($blockSlug, $variant, false);
 
-            return self::FAILURE;
+        if (!empty($result['skipped']) && !$force) {
+            $this->components->warn('Os seguintes arquivos já existem:');
+            foreach ($result['skipped'] as $file) {
+                $this->line('  • '.$file);
+            }
+
+            if (confirm(label: 'Deseja sobrescrever os arquivos existentes?', default: false)) {
+                $result = $action->handle($blockSlug, $variant, true);
+            } else {
+                $this->components->info('Operação cancelada. Nenhum arquivo foi sobrescrito.');
+
+                return self::SUCCESS;
+            }
         }
 
-        $this->makeFromStub(
-            $files,
-            'view.stub',
-            $target,
-            [
-                'name' => Str::studly($block),
-                'slug' => $block,
-                'variant' => $variant,
-            ]
-        );
-
-        $this->components->info(
-            sprintf("Variant '%s' created for block '%s'.", $variant, $block)
-        );
+        $this->components->info(sprintf("Variação '%s' criada para o bloco '%s'.", $variant, $blockSlug));
 
         $this->line('');
-        $this->line('Created files:');
+        $this->line('Arquivos criados:');
 
-        foreach ($this->createdFiles as $file) {
+        foreach ($result['created'] as $file) {
             $this->line('  • '.$file);
         }
 
         return self::SUCCESS;
-    }
-
-    protected function makeFromStub(
-        Filesystem $files,
-        string $stub,
-        string $target,
-        array $data
-    ): void {
-        $stubPath = base_path('app-modules/cms/stubs/'.$stub);
-
-        $content = $files->get($stubPath);
-
-        foreach ($data as $key => $value) {
-            $content = str_replace('{{ '.$key.' }}', $value, $content);
-        }
-
-        $files->put($target, $content);
-        $this->createdFiles[] = $this->relativePath($target);
-    }
-
-    protected function relativePath(string $path): string
-    {
-        return str_replace(base_path().DIRECTORY_SEPARATOR, '', $path);
     }
 }
