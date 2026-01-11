@@ -21,6 +21,7 @@
   - [Saída (output) do CLI](#saída-output-do-cli)
   - [Fluxo recomendado após gerar um bloco](#fluxo-recomendado-após-gerar-um-bloco)
 - [Renderização de Páginas](#renderização-de-páginas)
+- [Configuração do CMS](#configuração-do-cms)
 - [Persistência de Dados](#persistência-de-dados)
 - [Rotas do CMS](#rotas-do-cms)
 - [Estado Atual do Projeto](#estado-atual-do-projeto)
@@ -227,6 +228,28 @@ Exemplo simplificado:
     :component="$block->view()"
     :data="$block->content()"
 />
+```
+
+---
+
+---
+
+## Configuração do CMS
+
+O pacote expõe um arquivo de configuração `config/cms.php` com as seguintes chaves principais:
+
+- `cms.blocks.path` — caminho onde as classes de Block são lidas/geradas. Default: `app/Blocks`.
+- `cms.blocks.namespace` — namespace base usado para classes de Block geradas. Default: `App\\Blocks`.
+- `cms.views.path` — caminho onde as views (variações) são lidas/geradas. Default: `resources/views/components/blocks`.
+- `cms.views.namespace` — namespace/prefixo de views usado pelo método `view()` dos blocos (dot notation). Default: `components.blocks` (app views).
+- `cms.stubs.path` — caminho local para stubs customizados (project-level). Default: `resources/stubs/cms`.
+- `cms.stubs.package_path` — fallback para os stubs que vêm com o pacote. Default: `app-modules/cms/stubs`.
+
+Publicar o arquivo de configuração e os stubs para customização:
+
+```bash
+php artisan vendor:publish --tag="cms-config"
+php artisan vendor:publish --tag="cms-stubs"
 ```
 
 ---
