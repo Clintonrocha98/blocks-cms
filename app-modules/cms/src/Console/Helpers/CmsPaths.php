@@ -8,9 +8,7 @@ use Illuminate\Filesystem\Filesystem;
 
 final readonly class CmsPaths
 {
-    public function __construct(private Filesystem $files)
-    {
-    }
+    public function __construct(private Filesystem $files) {}
 
     public function blockPath(): string
     {

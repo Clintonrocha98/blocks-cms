@@ -6,14 +6,14 @@ namespace ClintonRocha\CMS\Console\Commands;
 
 use ClintonRocha\CMS\Console\Actions\MakeBlockAction;
 use Illuminate\Console\Command;
+use Illuminate\Contracts\Console\PromptsForMissingInput;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Str;
-use Illuminate\Contracts\Console\PromptsForMissingInput;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-use function Laravel\Prompts\text;
 use function Laravel\Prompts\confirm;
+use function Laravel\Prompts\text;
 
 class MakeBlockCommand extends Command implements PromptsForMissingInput
 {
@@ -23,36 +23,6 @@ class MakeBlockCommand extends Command implements PromptsForMissingInput
         {--force : Sobrescrever bloco existente}';
 
     protected $description = 'Cria um novo bloco do CMS';
-
-    /**
-     * Customize the prompt used when Laravel needs to collect missing arguments.
-     * Returning a string uses that string as the question for the argument.
-     * You may also return a closure that performs a custom prompt (eg. search).
-     *
-     * @return array<string, string|callable>
-     */
-    public function promptForMissingArgumentsUsing(): array
-    {
-        return [
-            'name' => 'Nome do bloco (StudlyCase)',
-        ];
-    }
-
-    /**
-     * Called after missing arguments were prompted. Use this to prompt for related options.
-     */
-    public function afterPromptingForMissingArguments(InputInterface $input, OutputInterface $output): void
-    {
-        $variants = $input->getOption('variants') ?: [];
-
-        if (empty($variants)) {
-            $raw = text(label: 'Variants (comma separated)', placeholder: 'default');
-
-            $parsed = array_filter(array_map('trim', explode(',', (string) $raw)));
-
-            $input->setOption('variants', $parsed ?: ['default']);
-        }
-    }
 
     public function handle(MakeBlockAction $action, Filesystem $files): int
     {
@@ -66,10 +36,10 @@ class MakeBlockCommand extends Command implements PromptsForMissingInput
 
         $result = $action->handle($name, $variants);
 
-        if (! empty($result['skipped']) && ! $force) {
+        if (filled($result['skipped']) && ! $force) {
             $this->components->warn('The following files already exist:');
             foreach ($result['skipped'] as $file) {
-                $this->line('  • ' . $file);
+                $this->line('  • '.$file);
             }
 
             if (confirm(label: 'Overwrite existing files?', default: false)) {
@@ -86,17 +56,47 @@ class MakeBlockCommand extends Command implements PromptsForMissingInput
         $this->line('Created files:');
 
         foreach ($result['created'] as $file) {
-            $this->line('  • ' . $file);
+            $this->line('  • '.$file);
         }
 
-        if (! empty($result['overwritten'])) {
+        if (filled($result['overwritten'])) {
             $this->line('');
             $this->line('Overwritten files:');
             foreach ($result['overwritten'] as $file) {
-                $this->line('  • ' . $file);
+                $this->line('  • '.$file);
             }
         }
 
         return self::SUCCESS;
+    }
+
+    /**
+     * Customize the prompt used when Laravel needs to collect missing arguments.
+     * Returning a string uses that string as the question for the argument.
+     * You may also return a closure that performs a custom prompt (eg. search).
+     *
+     * @return array<string, string|callable>
+     */
+    protected function promptForMissingArgumentsUsing(): array
+    {
+        return [
+            'name' => 'Nome do bloco (StudlyCase)',
+        ];
+    }
+
+    /**
+     * Called after missing arguments were prompted. Use this to prompt for related options.
+     */
+    protected function afterPromptingForMissingArguments(InputInterface $input, OutputInterface $output): void
+    {
+        $variants = $input->getOption('variants') ?: [];
+
+        if (blank($variants)) {
+            $raw = text(label: 'Variants (comma separated)', placeholder: 'default');
+
+            $parsed = array_filter(array_map(trim(...), explode(',', $raw)));
+
+            $input->setOption('variants', $parsed ?: ['default']);
+        }
     }
 }

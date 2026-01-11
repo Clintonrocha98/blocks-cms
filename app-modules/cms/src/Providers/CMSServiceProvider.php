@@ -17,13 +17,9 @@ class CMSServiceProvider extends ServiceProvider
     {
         $this->mergeConfigFrom(__DIR__.'/../../../../config/cms.php', 'cms');
 
-        $this->app->singleton(CmsPaths::class, function ($app) {
-            return new CmsPaths($app->make(Filesystem::class));
-        });
+        $this->app->singleton(CmsPaths::class, fn ($app) => new CmsPaths($app->make(Filesystem::class)));
 
-        $this->app->singleton(StubGenerator::class, function ($app) {
-            return new StubGenerator($app->make(Filesystem::class), $app->make(CmsPaths::class));
-        });
+        $this->app->singleton(StubGenerator::class, fn ($app) => new StubGenerator($app->make(Filesystem::class), $app->make(CmsPaths::class)));
 
         Panel::configureUsing(static function (Panel $panel): void {
             match ($panel->getId()) {

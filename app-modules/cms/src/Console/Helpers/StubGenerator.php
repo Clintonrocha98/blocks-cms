@@ -5,12 +5,11 @@ declare(strict_types=1);
 namespace ClintonRocha\CMS\Console\Helpers;
 
 use Illuminate\Filesystem\Filesystem;
+use RuntimeException;
 
 final readonly class StubGenerator
 {
-    public function __construct(private Filesystem $files, private CmsPaths $paths)
-    {
-    }
+    public function __construct(private Filesystem $files, private CmsPaths $paths) {}
 
     /**
      * Generate a file from a stub.
@@ -29,8 +28,8 @@ final readonly class StubGenerator
 
         $stubPath = $this->paths->stubsPath().DIRECTORY_SEPARATOR.$stub;
 
-        if (!$this->files->exists($stubPath)) {
-            throw new \RuntimeException(sprintf('Stub not found: %s', $stubPath));
+        if (! $this->files->exists($stubPath)) {
+            throw new RuntimeException(sprintf('Stub not found: %s', $stubPath));
         }
 
         $content = $this->files->get($stubPath);
@@ -41,14 +40,14 @@ final readonly class StubGenerator
 
         $dir = dirname($target);
 
-        if (!$this->files->isDirectory($dir)) {
+        if (! $this->files->isDirectory($dir)) {
             $this->files->makeDirectory($dir, 0755, true);
         }
 
         $relative = $this->relativePath($target);
 
         if ($this->files->exists($target)) {
-            if (!$force) {
+            if (! $force) {
                 return ['created' => [], 'overwritten' => [], 'skipped' => [$relative]];
             }
 

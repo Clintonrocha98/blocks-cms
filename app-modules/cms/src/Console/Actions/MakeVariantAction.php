@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace ClintonRocha\CMS\Console\Actions;
 
-use ClintonRocha\CMS\Console\Helpers\StubGenerator;
 use ClintonRocha\CMS\Console\Helpers\CmsPaths;
+use ClintonRocha\CMS\Console\Helpers\StubGenerator;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Str;
 use RuntimeException;
@@ -16,8 +16,7 @@ final readonly class MakeVariantAction
         private StubGenerator $stubs,
         private Filesystem $files,
         private CmsPaths $paths
-    ) {
-    }
+    ) {}
 
     /**
      * @return array{created: array, overwritten: array, skipped: array}
@@ -27,9 +26,9 @@ final readonly class MakeVariantAction
         $block = Str::kebab($blockSlug);
         $variant = Str::kebab($variant);
 
-        $viewPath = rtrim($this->paths->viewsPath(), DIRECTORY_SEPARATOR).DIRECTORY_SEPARATOR.$block;
+        $viewPath = mb_rtrim($this->paths->viewsPath(), DIRECTORY_SEPARATOR).DIRECTORY_SEPARATOR.$block;
 
-        if (!$this->files->isDirectory($viewPath)) {
+        if (! $this->files->isDirectory($viewPath)) {
             throw new RuntimeException(sprintf("Block '%s' does not exist.", $block));
         }
 

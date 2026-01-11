@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace ClintonRocha\CMS\Database\Factories;
 
-use App\Models\Block;
 use ClintonRocha\CMS\Models\Page;
 use ClintonRocha\CMS\Models\PageBlock;
 use Illuminate\Database\Eloquent\Factories\Factory;

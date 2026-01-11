@@ -22,7 +22,7 @@ final class BlockCatalog
         }
 
         $viewsPath = config('cms.views.path', resource_path('views/components/blocks'));
-        $path = rtrim($viewsPath, DIRECTORY_SEPARATOR).DIRECTORY_SEPARATOR.$type;
+        $path = mb_rtrim($viewsPath, DIRECTORY_SEPARATOR).DIRECTORY_SEPARATOR.$type;
 
         if (! is_dir($path)) {
             return self::$variants[$type] = [];
@@ -46,7 +46,7 @@ final class BlockCatalog
         }
 
         $blocksPath = config('cms.blocks.path', app_path('Blocks'));
-        $base = rtrim($blocksPath, DIRECTORY_SEPARATOR);
+        $base = mb_rtrim($blocksPath, DIRECTORY_SEPARATOR);
 
         return self::$options = collect(glob($base.'/*/*Block.php'))
             ->mapWithKeys(function (string $path): array {
@@ -77,6 +77,6 @@ final class BlockCatalog
             $relative
         );
 
-        return rtrim(config('cms.blocks.namespace', 'App\\Blocks'), '\\').'\\'.$classPath;
+        return mb_rtrim(config('cms.blocks.namespace', 'App\\Blocks'), '\\').'\\'.$classPath;
     }
 }

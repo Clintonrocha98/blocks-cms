@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace ClintonRocha\CMS\Console\Actions;
 
-use ClintonRocha\CMS\Console\Helpers\StubGenerator;
 use ClintonRocha\CMS\Console\Helpers\CmsPaths;
+use ClintonRocha\CMS\Console\Helpers\StubGenerator;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Str;
 
@@ -15,8 +15,7 @@ final readonly class MakeBlockAction
         private StubGenerator $stubs,
         private Filesystem $files,
         private CmsPaths $paths
-    ) {
-    }
+    ) {}
 
     /**
      * @return array{created: array, overwritten: array, skipped: array}
@@ -30,14 +29,14 @@ final readonly class MakeBlockAction
         $overwritten = [];
         $skipped = [];
 
-        $blockPath = rtrim($this->paths->blockPath(), DIRECTORY_SEPARATOR).DIRECTORY_SEPARATOR.$name;
-        $viewPath = rtrim($this->paths->viewsPath(), DIRECTORY_SEPARATOR).DIRECTORY_SEPARATOR.$slug;
+        $blockPath = mb_rtrim($this->paths->blockPath(), DIRECTORY_SEPARATOR).DIRECTORY_SEPARATOR.$name;
+        $viewPath = mb_rtrim($this->paths->viewsPath(), DIRECTORY_SEPARATOR).DIRECTORY_SEPARATOR.$slug;
 
-        if (!$this->files->isDirectory($blockPath)) {
+        if (! $this->files->isDirectory($blockPath)) {
             $this->files->makeDirectory($blockPath, 0755, true);
         }
 
-        if (!$this->files->isDirectory($viewPath)) {
+        if (! $this->files->isDirectory($viewPath)) {
             $this->files->makeDirectory($viewPath, 0755, true);
         }
 
