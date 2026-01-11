@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace ClintonRocha\CMS\Blocks\Text;
+namespace App\Blocks\Text;
 
 use ClintonRocha\CMS\Contracts\BlockSchema;
 use Filament\Forms\Components\Select;
